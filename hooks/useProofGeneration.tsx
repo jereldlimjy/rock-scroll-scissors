@@ -4,7 +4,7 @@ import { getCircuit } from '../utils/compile.js';
 import { BarretenbergBackend, ProofData } from '@noir-lang/backend_barretenberg';
 import { Noir } from '@noir-lang/noir_js';
 
-export function useProofGeneration(inputs?: { [key: string]: string }) {
+export function useProofGeneration(inputs?: any) {
   const [proofData, setProofData] = useState<ProofData | undefined>();
   const [noir, setNoir] = useState<Noir | undefined>();
 

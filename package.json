@@ -8,7 +8,7 @@
     "dev": "yarn prep && hardhat compile && yarn deploy && vite",
     "build": "hardhat compile && yarn deploy && vite build",
     "preview": "vite preview",
-    "deploy": "hardhat compile && NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only' hardhat run --network ${NETWORK:-localhost} scripts/deploy.ts",
+    "deploy": "hardhat compile && NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only' hardhat run --network ${NETWORK:-sepolia} scripts/deploy.ts",
     "test": "NODE_OPTIONS='--experimental-loader ts-node/esm/transpile-only' hardhat test"
   },
   "dependencies": {
@@ -20,8 +20,13 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox-viem": "1.0.0",
     "@nomicfoundation/hardhat-viem": "1.0.0",
+    "@starkware-industries/starkware-crypto-utils": "^0.2.1",
+    "@types/circomlibjs": "^0.1.6",
+    "buffer": "^6.0.3",
+    "circomlibjs": "^0.1.7",
     "dotenv": "^16.0.3",
     "hardhat": "^2.19.2",
+    "pedersen-fast": "^0.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-toastify": "^9.1.1",

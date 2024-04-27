@@ -23,6 +23,8 @@ export function useOnChainVerification(proofData?: ProofData) {
       return;
     }
 
+    console.log('proof data:', proofData);
+
     setArgs([bytesToHex(proofData.proof), proofData.publicInputs]);
 
     if (!onChainToast)
@@ -43,6 +45,8 @@ export function useOnChainVerification(proofData?: ProofData) {
         isLoading: false,
       });
     } else if (error) {
+      console.log(contractCallConfig);
+
       toast.update(onChainToast, {
         type: 'error',
         render: 'Error verifying proof on-chain!',
