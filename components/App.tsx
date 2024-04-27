@@ -25,6 +25,7 @@ function App() {
 
     // Sum move and nonce to create hash
     const combinedInt = move + nonce;
+    // TODO: change to SHA256
     const hash = blake2s256(toBytes(combinedInt));
 
     setInput({ move: move, nonce, hash: Array.from(hash) });
