@@ -12,12 +12,13 @@ enum Move {
   Scissors,
 }
 
-function Component() {
+function App() {
   const [move, setMove] = useState<Move>(Move.Rock);
   const [input, setInput] = useState<any>();
   const { noir, proofData } = useProofGeneration(input);
-  useOffChainVerification(noir, proofData);
-  useOnChainVerification(proofData);
+  // useOffChainVerification(noir, proofData);
+  // TODO: fix onchain verification
+  // useOnChainVerification(proofData);
 
   const handleSubmit = () => {
     const nonce = Math.floor(Math.random() * 201);
@@ -25,10 +26,6 @@ function Component() {
     // Sum move and nonce to create hash
     const combinedInt = move + nonce;
     const hash = blake2s256(toBytes(combinedInt));
-
-    console.log(Array.from(hash));
-    console.log(move);
-    console.log(nonce);
 
     setInput({ move: move, nonce, hash: Array.from(hash) });
   };
@@ -49,4 +46,4 @@ function Component() {
   );
 }
 
-export default Component;
+export default App;

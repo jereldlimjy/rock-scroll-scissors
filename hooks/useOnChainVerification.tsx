@@ -45,8 +45,6 @@ export function useOnChainVerification(proofData?: ProofData) {
         isLoading: false,
       });
     } else if (error) {
-      console.log(contractCallConfig);
-
       toast.update(onChainToast, {
         type: 'error',
         render: 'Error verifying proof on-chain!',
