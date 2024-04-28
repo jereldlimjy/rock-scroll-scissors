@@ -1,12 +1,12 @@
 import { createConfig, configureChains } from 'wagmi';
-import { localhost, scrollSepolia } from 'wagmi/chains';
+import { scrollSepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import abi from './verifierAbi.json';
 import { chainId, verifier } from './addresses.json';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [localhost, scrollSepolia],
+  [scrollSepolia],
   [publicProvider()],
 );
 
