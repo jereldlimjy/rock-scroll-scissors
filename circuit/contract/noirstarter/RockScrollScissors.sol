@@ -98,6 +98,10 @@ contract RockScrollScissors {
         emit GameResolved(gameId, winner);
     }
 
+    function getGameDetails(uint256 gameId) public view returns (Game memory) {
+        return games[gameId];
+    }
+
     function _verifyProof(bytes memory proof, bytes32 creatorHash) internal view {
         // bytes32[] memory publicInputs = new bytes32[](1);
         // publicInputs[0] = creatorHash;

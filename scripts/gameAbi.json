@@ -3,29 +3,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_opponent",
-				"type": "address"
-			},
-			{
-				"internalType": "bytes",
-				"name": "_proof",
-				"type": "bytes"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_creatorHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "createGame",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "_verifierAddress",
 				"type": "address"
 			}
@@ -99,40 +76,22 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "gameId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_opponent",
+				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_move",
-				"type": "uint256"
+				"internalType": "bytes",
+				"name": "_proof",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_creatorHash",
+				"type": "bytes32"
 			}
 		],
-		"name": "joinGame",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "gameId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_move",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_nonce",
-				"type": "uint256"
-			}
-		],
-		"name": "resolveGame",
+		"name": "createGame",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -189,9 +148,111 @@
 				"internalType": "enum RockScrollScissors.GameStatus",
 				"name": "status",
 				"type": "uint8"
+			},
+			{
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			}
+		],
+		"name": "getGameDetails",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "gameId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "creator",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "creatorHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "opponent",
+						"type": "address"
+					},
+					{
+						"internalType": "enum RockScrollScissors.Move",
+						"name": "opponentMove",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum RockScrollScissors.GameStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address",
+						"name": "winner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct RockScrollScissors.Game",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_move",
+				"type": "uint256"
+			}
+		],
+		"name": "joinGame",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_move",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nonce",
+				"type": "uint256"
+			}
+		],
+		"name": "resolveGame",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
