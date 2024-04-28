@@ -8,6 +8,8 @@ import initNoirC from '@noir-lang/noirc_abi';
 import initACVM from '@noir-lang/acvm_js';
 import { WagmiConfig } from 'wagmi';
 import { config } from './utils/wagmi';
+import { ConnectKitProvider } from 'connectkit';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const InitWasm = ({ children }) => {
   const [init, setInit] = React.useState(false);
@@ -26,10 +28,18 @@ const InitWasm = ({ children }) => {
   return <div>{init && children}</div>;
 };
 
+const queryClient = new QueryClient();
+
 export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
-  return <WagmiConfig config={config}>{mounted && children}</WagmiConfig>;
+  return (
+    <WagmiConfig config={config}>
+      <QueryClientProvider client={queryClient}>
+        <ConnectKitProvider mode="dark">{mounted && children}</ConnectKitProvider>
+      </QueryClientProvider>
+    </WagmiConfig>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

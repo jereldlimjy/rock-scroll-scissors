@@ -17,7 +17,8 @@
     "jsx": "preserve",
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "incremental": true
+    "incremental": true,
+    "types": ["vite/client"]
   },
   "ts-node": {
     "experimentalResolver": true,

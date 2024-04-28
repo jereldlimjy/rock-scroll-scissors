@@ -7,7 +7,7 @@ fn main(move: u8, nonce: u8, hash: pub [u8; 32]) {
     assert(move <= 2);
 
     // Get hash of move and nonce
-    let computed_hash = std::hash::blake2s([move + nonce]);
+    let computed_hash = std::hash::sha256([move + nonce]);
 
     // Check if the computed hash matches the hash provided as public input
     assert(computed_hash == hash, "Hash mismatch!");

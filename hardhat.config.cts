@@ -47,9 +47,10 @@ if (process.env.MUMBAI_ALCHEMY_KEY && config.networks) {
   };
 }
 
-if (process.env.SEPOLIA_ALCHEMY_KEY && config.networks) {
+if (process.env.SEPOLIA_RPC_URL && config.networks) {
   config.networks.sepolia = {
-    url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.SEPOLIA_ALCHEMY_KEY}`,
+    gasPrice: 700000000,
+    url: process.env.SEPOLIA_RPC_URL,
     accounts: [process.env.SEPOLIA_DEPLOYER_PRIVATE_KEY as string],
   };
 }

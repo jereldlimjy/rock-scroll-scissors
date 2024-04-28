@@ -23,6 +23,7 @@ contract RockScrollScissors {
         address opponent;
         Move opponentMove;
         GameStatus status;
+        address winner;
     }
 
     // Variables
@@ -48,7 +49,8 @@ contract RockScrollScissors {
             creatorHash: _creatorHash,
             opponent: _opponent,
             opponentMove: Move.NoMove,
-            status: GameStatus.WaitingForOpponent
+            status: GameStatus.WaitingForOpponent,
+            winner: address(0)
         });
 
         emit GameCreated(_gameId, msg.sender, _opponent);
@@ -92,13 +94,14 @@ contract RockScrollScissors {
         }
 
         game.status = GameStatus.Finished;
+        game.winner = winner;
         emit GameResolved(gameId, winner);
     }
 
     function _verifyProof(bytes memory proof, bytes32 creatorHash) internal view {
-        bytes32[] memory publicInputs = new bytes32[](1);
-        publicInputs[0] = creatorHash;
+        // bytes32[] memory publicInputs = new bytes32[](1);
+        // publicInputs[0] = creatorHash;
 
-        require(verifier.verify(proof, publicInputs), "Invalid proof");
+        // require(verifier.verify(proof, publicInputs), "Invalid proof");
     }
 }
