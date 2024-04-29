@@ -7,9 +7,10 @@ interface IVerifier {
 
 contract RockScrollScissors {
     // Events
-    event GameCreated(uint256 indexed gameId, address indexed creator, address indexed opponent);
+    event GameCreated(uint256 indexed gameId, address indexed creator, address indexed opponent,  uint256 betAmount);
     event GameJoined(uint256 indexed gameId, address indexed opponent);
     event GameResolved(uint256 indexed gameId, address winner);
+    event Payout(uint256 indexed gameId, address recipient, uint256 amount);
 
     // Enums
     enum Move { NoMove, Rock, Scroll, Scissors }
@@ -24,22 +25,25 @@ contract RockScrollScissors {
         Move opponentMove;
         GameStatus status;
         address winner;
+        uint256 betAmount;
     }
 
     // Variables
+    IVerifier verifier;
     uint256 public gameCount = 0;
     mapping(uint256 => Game) public games;
-    IVerifier public verifier;
+    mapping(address => uint256[]) public gamesByPlayer;
 
     constructor(address _verifierAddress) {
         verifier = IVerifier(_verifierAddress);
     }
 
     // Create a new game
-    function createGame(address _opponent, bytes memory _proof, bytes32 _creatorHash) external {
+    function createGame(address _opponent, uint256 _betAmount, bytes memory _proof, bytes32 _creatorHash, bytes32[] memory publicInput) external payable {
         require(msg.sender != _opponent, "Cannot play against yourself");
+        require(msg.value == _betAmount, "Bet amount mismatch");
 
-        _verifyProof(_proof, _creatorHash);
+        _verifyProof(_proof, publicInput);
 
         uint256 _gameId = gameCount++;
 
@@ -50,16 +54,20 @@ contract RockScrollScissors {
             opponent: _opponent,
             opponentMove: Move.NoMove,
             status: GameStatus.WaitingForOpponent,
-            winner: address(0)
+            winner: address(0),
+            betAmount: _betAmount
         });
+        gamesByPlayer[msg.sender].push(_gameId);
+        gamesByPlayer[_opponent].push(_gameId);
 
-        emit GameCreated(_gameId, msg.sender, _opponent);
+        emit GameCreated(_gameId, msg.sender, _opponent, _betAmount);
     }
 
     // For opponent to submit move
-    function joinGame(uint256 gameId, uint256 _move) external {
+    function joinGame(uint256 gameId, uint256 _move) external payable {
         Game storage game = games[gameId];
         require(msg.sender == game.opponent, "Invalid opponent");
+        require(msg.value == game.betAmount, "Bet amount mismatch");
         require(game.status == GameStatus.WaitingForOpponent, "Unable to submit move");
         require(_move >= uint(Move.Rock) && _move <= uint(Move.Scissors), "Invalid move");
 
@@ -84,28 +92,37 @@ contract RockScrollScissors {
         require(computedHash == game.creatorHash, "Move and nonce do not match the committed hash.");
 
         // Determine the winner
-        address winner = address(0); // default to no winner
+        address _winner = address(0); // default to no winner
         if (move == game.opponentMove) {
-            winner = address(0); // Draw
-        } else if ((move == Move.Rock && game.opponentMove == Move.Scissors) || (move == Move.Scroll && game.opponentMove == Move.Scissors) || (move == Move.Scissors && game.opponentMove == Move.Rock)) {
-            winner = game.opponent;
+            _winner = address(0); // Draw
+            (bool successCreator, ) = game.creator.call{ value: game.betAmount }("");
+            (bool successOpponent, ) = game.opponent.call{ value: game.betAmount }("");
+            require(successCreator);
+            require(successOpponent);
+        } else if ((move == Move.Rock && game.opponentMove == Move.Scroll) || (move == Move.Scroll && game.opponentMove == Move.Scissors) || (move == Move.Scissors && game.opponentMove == Move.Rock)) {
+            _winner = game.opponent;
+            (bool successOpponent, ) = game.opponent.call{ value: game.betAmount * 2 }("");
+            require(successOpponent);
         } else {
-            winner = game.creator;
+            _winner = game.creator;
+            (bool successCreator, ) = game.creator.call{ value: game.betAmount * 2 }("");
+            require(successCreator);
         }
 
         game.status = GameStatus.Finished;
-        game.winner = winner;
-        emit GameResolved(gameId, winner);
+        game.winner = _winner;
+        emit GameResolved(gameId, _winner);
+
+        if (_winner != address(0)) {
+            emit Payout(gameId, _winner, game.betAmount * 2);
+        }
     }
 
-    function getGameDetails(uint256 gameId) public view returns (Game memory) {
-        return games[gameId];
+    function getGamesByPlayer(address player) public view returns (uint256[] memory) {
+        return gamesByPlayer[player];
     }
 
-    function _verifyProof(bytes memory proof, bytes32 creatorHash) internal view {
-        // bytes32[] memory publicInputs = new bytes32[](1);
-        // publicInputs[0] = creatorHash;
-
-        // require(verifier.verify(proof, publicInputs), "Invalid proof");
+    function _verifyProof(bytes memory proof, bytes32[] memory publicInput) internal view {
+        require(verifier.verify(proof, publicInput), "Invalid proof");
     }
 }

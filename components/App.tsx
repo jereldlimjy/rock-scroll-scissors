@@ -4,12 +4,12 @@ import '@covalenthq/goldrush-kit/styles.css';
 import Navbar from './Navbar.jsx';
 import CreateGame from './CreateGame.jsx';
 
-const GAME_CONTRACT_ADDRESS = '0x6135c2692db161f31781c4ccae1fefa42a8d7340';
+const GAME_CONTRACT_ADDRESS = '0xA0DB764E90ca471eAa977947eAa2BA22b9083D41';
 
 const App = () => {
   return (
     <GoldRushProvider apikey={import.meta.env.COVALENT_API_KEY ?? ''}>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col w-full bg-[#fff8f3]">
         <Navbar />
         <main className="container mx-auto px-10">
           {/* Create game */}

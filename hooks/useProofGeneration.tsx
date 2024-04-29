@@ -8,7 +8,7 @@ export function useProofGeneration(inputs?: any) {
   const [proofData, setProofData] = useState<ProofData | undefined>();
   const [noir, setNoir] = useState<Noir | undefined>();
 
-  const proofGeneration = async () => {
+  const proofGeneration = async (inputs: any) => {
     if (!inputs) return;
     const circuit = await getCircuit();
     const backend = new BarretenbergBackend(circuit, { threads: navigator.hardwareConcurrency });
@@ -30,10 +30,5 @@ export function useProofGeneration(inputs?: any) {
     setNoir(noir);
   };
 
-  useEffect(() => {
-    if (!inputs) return;
-    proofGeneration();
-  }, [inputs]);
-
-  return { noir, proofData };
+  return { noir, proofData, proofGeneration };
 }

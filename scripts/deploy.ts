@@ -6,20 +6,20 @@ async function main() {
   const publicClient = await viem.getPublicClient();
 
   // // Deploy the verifier contract
-  // const verifier = await viem.deployContract('UltraVerifier');
+  const verifier = await viem.deployContract('UltraVerifier');
 
-  // // Create a config object
-  // const config = {
-  //   chainId: publicClient.chain.id,
-  //   verifier: verifier.address,
-  // };
+  // Create a config object
+  const config = {
+    chainId: publicClient.chain.id,
+    verifier: verifier.address,
+  };
 
-  // // Print the config
-  // console.log('Deployed at', config);
-  // writeFileSync('utils/addresses.json', JSON.stringify(config), { flag: 'w' });
+  // Print the config
+  console.log('Deployed at', config);
+  writeFileSync('utils/addresses.json', JSON.stringify(config), { flag: 'w' });
 
-  // const game = await viem.deployContract('RockScrollScissors', [verifier.address]);
-  // console.log('Game deployed at', game.address);
+  const game = await viem.deployContract('RockScrollScissors', [verifier.address]);
+  console.log('Game deployed at', game.address);
 
   process.exit();
 }

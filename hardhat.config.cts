@@ -35,6 +35,19 @@ const config: HardhatUserConfig = {
       url: 'http://127.0.0.1:8545',
     },
   },
+  etherscan: {
+    apiKey: process.env.SCROLLSCAN_API_KEY,
+    customChains: [
+      {
+        network: 'sepolia',
+        chainId: 534351,
+        urls: {
+          apiURL: 'https://api-sepolia.scrollscan.com/api',
+          browserURL: 'https://sepolia.scrollscan.com/',
+        },
+      },
+    ],
+  },
   paths: {
     sources: './circuit',
   },
