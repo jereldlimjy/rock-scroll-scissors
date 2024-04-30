@@ -12,7 +12,7 @@ const proof =
 async function main() {
   const provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL ?? '');
   const wallet = new ethers.Wallet(process.env.SEPOLIA_DEPLOYER_PRIVATE_KEY ?? '', provider);
-  const gameContract = new ethers.Contract(GAME_CONTRACT_ADDRESS, gameAbi, wallet);
+  const gameContract = new ethers.Contract(GAME_CONTRACT_ADDRESS, gameAbi.abi, wallet);
 
   // try create game
   try {

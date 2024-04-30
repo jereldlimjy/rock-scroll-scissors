@@ -30,6 +30,12 @@
 				"internalType": "address",
 				"name": "opponent",
 				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "betAmount",
+				"type": "uint256"
 			}
 		],
 		"name": "GameCreated",
@@ -74,11 +80,41 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Payout",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
 				"name": "_opponent",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_betAmount",
+				"type": "uint256"
 			},
 			{
 				"internalType": "bytes",
@@ -89,11 +125,16 @@
 				"internalType": "bytes32",
 				"name": "_creatorHash",
 				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "publicInput",
+				"type": "bytes32[]"
 			}
 		],
 		"name": "createGame",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -153,6 +194,11 @@
 				"internalType": "address",
 				"name": "winner",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betAmount",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -161,54 +207,41 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
-				"name": "gameId",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "getGameDetails",
+		"name": "gamesByPlayer",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "gameId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "creator",
-						"type": "address"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "creatorHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "address",
-						"name": "opponent",
-						"type": "address"
-					},
-					{
-						"internalType": "enum RockScrollScissors.Move",
-						"name": "opponentMove",
-						"type": "uint8"
-					},
-					{
-						"internalType": "enum RockScrollScissors.GameStatus",
-						"name": "status",
-						"type": "uint8"
-					},
-					{
-						"internalType": "address",
-						"name": "winner",
-						"type": "address"
-					}
-				],
-				"internalType": "struct RockScrollScissors.Game",
+				"internalType": "uint256",
 				"name": "",
-				"type": "tuple"
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			}
+		],
+		"name": "getGamesByPlayer",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -229,7 +262,7 @@
 		],
 		"name": "joinGame",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -253,19 +286,6 @@
 		"name": "resolveGame",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "verifier",
-		"outputs": [
-			{
-				"internalType": "contract IVerifier",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	}
 ]
