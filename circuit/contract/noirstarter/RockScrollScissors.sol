@@ -122,6 +122,10 @@ contract RockScrollScissors {
         return gamesByPlayer[player];
     }
 
+    function getGameDetails(uint256 gameId) public view returns (Game memory) {
+        return games[gameId];
+    }
+
     function _verifyProof(bytes memory proof, bytes32[] memory publicInput) internal view {
         require(verifier.verify(proof, publicInput), "Invalid proof");
     }
